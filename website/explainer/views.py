@@ -16,10 +16,10 @@ def explainer(request):
     }
 
     if request.method == 'POST':
-        your_name = request.POST.get('text')
-        your_name = your_name.replace("\n", " ").replace("\r", " ")
-        print(your_name)
-        exp = explain_sentence(your_name)
+        text = request.POST.get('text')
+        text = text.replace("\n", " ").replace("\r", " ")
+        print(text)
+        exp = explain_sentence(text)
         output_filename = Path(__file__).parent / "explanation.html"
         bundle_js, out = save_to_file(exp, output_filename, show_predicted_value=False)
         context = {"out" : out, "bundle_js":bundle_js}
