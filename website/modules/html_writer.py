@@ -13,7 +13,6 @@ def id_generator(size=15, random_state=None):
 
 
 def save_to_file(exp,
-                 file_path,
                  labels=None,
                  predict_proba=True,
                  show_predicted_value=True,
