@@ -118,7 +118,7 @@ def as_html(explainer,
         exp.show(%s, %s, exp_div);
         ''' % (exp, explainer.dummy_label)
 
-    raw_js = '''var raw_div = exp_div.append('div');'''
+    raw_js = '''var raw_sub_div = raw_div.append('div');'''
 
     if explainer.mode == "classification":
         html_data = explainer.local_exp[labels[0]]
@@ -128,7 +128,7 @@ def as_html(explainer,
     raw_js += explainer.domain_mapper.visualize_instance_html(
         html_data,
         labels[0] if explainer.mode == "classification" else explainer.dummy_label,
-        'raw_div',
+        'raw_sub_div',
         'exp',
         **kwargs)
 

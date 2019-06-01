@@ -8,6 +8,11 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
    <script>{{ bundle_js|safe }}</script>
+    <style>
+        .lime.text_div {
+            overflow:auto;
+        }
+    </style>
 </head>
 
 <div class="container">
@@ -21,10 +26,11 @@
 	</div>
 	<div class="row">
 		<div class="col-md-4">
-			<form method="post" action="{% url 'index' %}">
+			<form method="post" action="{% url 'explainer' %}">
+<!--                <form method="post" action="{% url 'index' %}">-->
         {% csrf_token %}
       <label for="comment">Comment:</label>
-      <textarea  type="text" class="form-control" rows="5" id="comment" name="name" ></textarea>
+      <textarea  type="text" class="form-control" rows="5" id="comment" name="text" ></textarea>
         <input type="submit" value="submit"><br>
     </form>
 		</div>
@@ -57,7 +63,7 @@
 <!--        <input type="submit" value="submit"><br>-->
 <!--    </form>-->
 
-<!--    -->
+
 
 <!--</div>-->
 

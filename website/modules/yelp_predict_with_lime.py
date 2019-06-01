@@ -22,7 +22,7 @@ def tokenize_string(string):
     return string.split()
 
 # Load our trained FastText classifier model (created in Part 2)
-classifier = fastText.load_model('F:/Data/yelp/reviews_model_ngrams.bin')
+classifier = fastText.load_model('D:/yelp/reviews_model_ngrams.bin')
 
 # Create a LimeTextExplainer. This object knows how to explain a text-based
 # prediction by dropping words randomly.
@@ -65,7 +65,7 @@ def fasttext_prediction_in_sklearn_format(classifier, texts):
 def explain_sentence(review):
 
     # Review to explain
-    # review = "I didn't love this place :( The food wasn't very good and I didn't like the service either. Also, I found a bug in my food."
+    #review = "I didn't love this place :( The food wasn't very good and I didn't like the service either. Also, I found a bug in my food."
 
     # Pre-process the text of the review so it matches the training format
     preprocessed_review = strip_formatting(review)
@@ -84,9 +84,9 @@ def explain_sentence(review):
 
     return exp
 
-    # # Save the explanation to an HTML file so it's easy to view.
-    # # You can also get it to other formats: as_list(), as_map(), etc.
-    # # See https://lime-ml.readthedocs.io/en/latest/lime.html#lime.explanation.Explanation
+    # Save the explanation to an HTML file so it's easy to view.
+    # You can also get it to other formats: as_list(), as_map(), etc.
+    # See https://lime-ml.readthedocs.io/en/latest/lime.html#lime.explanation.Explanation
     # output_filename = Path(__file__).parent / "explanation.html"
     # exp.save_to_file(output_filename, show_predicted_value=False)
     #
