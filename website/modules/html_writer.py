@@ -67,10 +67,10 @@ def as_html(explainer,
         labels = explainer.available_labels()
 
     this_dir, _ = os.path.split(__file__)
-    bundle = open(os.path.join(this_dir, 'bundle.js'),
-                  encoding="utf8").read()
-
-    bundle_js = '''%s''' % bundle
+    # bundle = open(os.path.join(this_dir, 'bundle.js'),
+    #               encoding="utf8").read()
+    #
+    # bundle_js = '''%s''' % bundle
     out = ''''''
     # random_id = id_generator(size=15, random_state=check_random_state(explainer.random_state))
     # out += u'''
@@ -142,4 +142,4 @@ def as_html(explainer,
     ''' % (predict_proba_js, exp_js, raw_js)
     # out += u'</body></html>'
 
-    return bundle_js, out
+    return out

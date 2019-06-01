@@ -40,8 +40,8 @@ def index(request):
         print(text)
         exp = explain_sentence(text)
         output_filename = Path(__file__).parent / "index.html"
-        bundle_js, out = save_to_file(exp, output_filename, show_predicted_value=False)
-        context = {"out" : out, "bundle_js":bundle_js}
+        out = save_to_file(exp, output_filename, show_predicted_value=False)
+        context = {"out" : out }
 
 
     # return HttpResponse(template.render(context, request))
