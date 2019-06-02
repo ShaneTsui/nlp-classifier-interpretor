@@ -108,14 +108,14 @@ def as_html(explainer,
             exp = jsonize(explainer.as_list(label))
             exp_js += '''
             exp_div = exp_div.append('div').classed('lime explanation', true);
-            exp.show(%s, %d, exp_div);
-            ''' % (exp, label)
+            '''
+            #exp.show(%s, %d, exp_div); % (exp, label)
     else:
         exp = jsonize(explainer.as_list())
         exp_js += '''
         exp_div = exp_div.append('div').classed('lime explanation', true);
-        exp.show(%s, %s, exp_div);
-        ''' % (exp, explainer.dummy_label)
+        '''
+        # exp.show( % s, % s, exp_div); % (exp, explainer.dummy_label)
 
     raw_js = '''var raw_sub_div = raw_div.append('div');'''
 
