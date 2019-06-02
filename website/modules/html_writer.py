@@ -82,9 +82,10 @@ def as_html(explainer,
         var pp_div = proba_div.append('div')
                             .classed('lime predict_proba', true);
         var pp_svg = pp_div.append('svg').style('width', '100%%');
-        var pp = new lime.PredictProba(pp_svg, %s, %s);
-        ''' % (jsonize([str(x) for x in explainer.class_names]),
-               jsonize(list(explainer.predict_proba.astype(float))))
+        '''
+        # var pp = new lime.PredictProba(pp_svg, %s, %s);
+        #% (jsonize([str(x) for x in explainer.class_names]),
+            #   jsonize(list(explainer.predict_proba.astype(float))))
 
     # predict_value_js = ''
     # if explainer.mode == "regression" and show_predicted_value:

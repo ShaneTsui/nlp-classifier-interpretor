@@ -100,47 +100,27 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		  <br>
 		  <div id="figure1" class="lime top_div col-md-4"></div>
 	  </td>
+
 	  <td width="70%"align="center">
 		  <div class='testDiv' id="figure3" class="lime top_div col-md-8" style="height:100px"></div>
 		  <br>
 		  <br>
-	    <div id="container">
-			<canvas id="word_exp" style="background-color: #FFFFFF"></canvas>
+
+	    <div>
+			<canvas id="word_conf_exp" style="background-color: #FFFFFF; border-radius: 5px;"></canvas>
 		</div>
+	    <br>
+	    <br>
+
+		<div>
+			<canvas id="class_conf_exp" style="background-color: #FFFFFF; border-radius: 5px;"></canvas>
+		</div>
+
 	  </td>
-	  </tr>
+	 </tr>
 
-<!--	  <tr>-->
-<!--	  <td width="30%" align="center">-->
-<!--		  <div id="figure1" class="lime top_div col-md-4"></div>-->
-<!--	  </td>-->
-<!--	  <td width="70%" align="center">-->
-<!--		  <div id="figure2" class="lime top_div col-md-4"></div>-->
-<!--	  </td>-->
-<!--	 </tr>-->
-<!--	  <td colspan="2" align="center">-->
-<!--		<script src="{% static 'explainer/js/easyResponsiveTabs.js' %}" type="text/javascript"></script>-->
-<!--	  </td>-->
-<!--	 </tr>-->
 	</table>
-<!--	<div style="width: 30%;float: left;">-->
-<!--		<form action="#" method="post">-->
-<!--			{% csrf_token %}-->
-<!--							<textarea  name="text" placeholder="Text..." required=""></textarea>-->
-<!--							<input type="submit" value="Explain"/>-->
-<!--		</form>-->
-<!--		<div id="figure11" class="lime top_div col-md-4"></div>-->
-<!--	</div>-->
 
-<!--	<div style="width: 70%;float: left;">-->
-<!--&lt;!&ndash;		<textarea  name="highlight_explaination" placeholder="Explaination..." required=""></textarea>&ndash;&gt;-->
-<!--		<div class="row">-->
-<!--                <div id="figure33" class="lime top_div col-md-8"></div>-->
-<!--			</div>-->
-<!--		<div class="row">-->
-<!--                <div id="figure22" class="lime top_div col-md-4"></div>-->
-<!--			</div>-->
-<!--	</div>-->
 </div>
 
 
@@ -151,31 +131,55 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 </div>
 <script src="{% static 'explainer/js/easyResponsiveTabs.js' %}" type="text/javascript"></script>
 </footer>
-
-
 </body>
 
 <script>
-		var barChartData = {{ my_data|safe }};
-		window.onload = function() {
-			var ctx = $('#word_exp')[0].getContext('2d');
-			ctx.font = 'bold 48px serif';
-			window.myBar = new Chart(ctx, {
-				type: 'bar',
-				data: barChartData,
-				options: {
-					responsive: true,
-					legend: {
-						position: 'top',
-					},
-					title: {
-						display: true,
-						text: 'Per-word confidence of prediction'
-					}
-				}
-			});
+	var wordConfBarChartData = {{ wordConfData|safe }};
+	var classConfBarChartData = {{ classConfData|safe }};
 
-		};
+	window.onload = function() {
+		var word_ctx = $('#word_conf_exp')[0].getContext('2d');
+		window.myBar = new Chart(word_ctx, {
+			type: 'bar',
+			data: wordConfBarChartData,
+			options: {
+				responsive: true,
+				legend: {
+					position: 'top',
+				},
+				title: {
+					display: true,
+					text: 'Per-word confidence of prediction'
+				}
+			}
+		});
+
+		var class_ctx = $('#class_conf_exp')[0].getContext('2d');
+		window.myHorizontalBar = new Chart(class_ctx, {
+			type: 'horizontalBar',
+			data: classConfBarChartData,
+			options: {
+				// Elements options apply to all of the options unless overridden in a dataset
+				// In this case, we are setting the border of each horizontal bar to be 2px wide
+				elements: {
+					rectangle: {
+						borderWidth: 2,
+					}
+				},
+				responsive: true,
+				legend: {
+					position: 'right',
+				},
+				title: {
+					display: true,
+					text: 'Chart.js Horizontal Bar Chart'
+				}
+			}
+		});
+
+	};
+
+
 </script>
 
 <script>{{ out|safe }}</script>
