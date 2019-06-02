@@ -1,6 +1,7 @@
 import util.yelp as yelp
 import util.sentiment as sentiment
 from hnatt import HNATT
+from util.text_util import normalize
 
 YELP_DATA_PATH = '../data/yelp/review.json'
 SENTIMENT_DATA_PATH = '../data/sentiment/sentiment.tar.gz'
@@ -68,6 +69,7 @@ def visual_info(dataset, testcase, label = ""):
 		sentence_probs.append(sent[1])
 	dic['word_attention'] = word_probs
 	dic['sentence_attention'] = sentence_probs
+	dic['splited_sentences'] = normalize(testcase)
 	return dic
 
 def train(dataset):
