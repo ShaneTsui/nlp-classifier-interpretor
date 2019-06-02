@@ -61,8 +61,9 @@ def fasttext_prediction_in_sklearn_format(classifier, texts):
 
     return np.array(res)
 
-
-def explain_sentence(review):
+# TODO: Add parameters here, including
+# num_features, num_samples, top_label
+def explain_sentence(review, top_labels=1, num_features=20, num_samples=5000):
 
     # Review to explain
     #review = "I didn't love this place :( The food wasn't very good and I didn't like the service either. Also, I found a bug in my food."
@@ -77,9 +78,11 @@ def explain_sentence(review):
         # The wrapper function that returns FastText predictions in scikit-learn format
         classifier_fn=lambda x: fasttext_prediction_in_sklearn_format(classifier, x),
         # How many labels to explain. We just want to explain the single most likely label.
-        top_labels=1,
+        top_labels=top_labels,
         # How many words in our sentence to include in the explanation. You can try different values.
-        num_features=20,
+        num_features=num_features,
+        # How many samples shall the lime algorithm generate
+        num_samples=5000
     )
 
     return exp

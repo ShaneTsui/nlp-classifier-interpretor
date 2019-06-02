@@ -171,15 +171,16 @@ input[type="text"], input[type="password"] {
     background: rgba(255, 255, 255, 0.15);
 }
 textarea{
-    width: 92%;
+    width: 100%;
+    border-radius: 5px;
     padding: 15px;
     border: none;
-    margin-bottom: 20px;
-    font-size: 16px;
+    margin-bottom: 30px;
+    font-size: 30px;
     outline: none;
     color: #ffffff;
     background: rgba(255, 255, 255, 0.15);
-	min-height:100px;
+	min-height:450px;
 	font-family: 'Ropa Sans', sans-serif;
 }
 
@@ -187,7 +188,7 @@ input[type="submit"] {
     color: #fff;
     background: #ce224d;
     padding: 12px 20px;
-    font-size: 16px;
+    font-size: 20px;
     border: none;
     outline: none;
     margin: 30px auto 0 auto;

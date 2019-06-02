@@ -127,7 +127,8 @@ class HNATT():
 
 	def load_weights(self, saved_model_dir, saved_model_filename):
 		with CustomObjectScope({'Attention': Attention}):
-			self.model = load_model(os.path.join(saved_model_dir, saved_model_filename))
+			fpath = os.path.join(saved_model_dir, saved_model_filename)
+			self.model = load_model(fpath)
 			self.word_attention_model = self.model.get_layer('time_distributed_1').layer
 			tokenizer_path = os.path.join(
 				saved_model_dir, self._get_tokenizer_filename(saved_model_filename))

@@ -43,7 +43,7 @@ def find_confidence_cases():
 						over_confident_file.writelines(line)
 
 
-def visual_info(dataset, testcase, label = ""):
+def hnatt_explain(testcase, dataset='sentiment', label = ""):
 	"""
 
 	:param dataset: string: sentiment/yelp
@@ -105,8 +105,10 @@ if __name__ == '__main__':
 
 	dataset = 'sentiment'
 	testcase = 'i agree that the seating is odd. but the food is exceptional especially for the price. the menu is truly montreal meats japan (spelling is correct) = very unique. great'
-	result = visual_info(dataset, testcase)
+	result = hnatt_explain(dataset, testcase)
 	for key in result:
 	     print(key, result[key])
+
+
 
 	#find_confidence_cases()
