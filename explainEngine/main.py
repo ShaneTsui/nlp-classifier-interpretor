@@ -4,11 +4,13 @@ from hnatt import HNATT
 
 YELP_DATA_PATH = '../data/yelp/review.json'
 SENTIMENT_DATA_PATH = '../data/sentiment/sentiment.tar.gz'
+
 SENT_SAVED_MODEL_DIR = 'saved_models/sentiment/'
 YELP_SAVED_MODEL_DIR  = 'saved_models/yelp/'
+
 SAVED_MODEL_FILENAME = 'model.h5'
 
-def find_confidence_cases(h, dev_x, dev_y, threshold):
+def find_confidence_cases():
 	"""
 
 	:param h: pretrained HNATT model
@@ -17,27 +19,38 @@ def find_confidence_cases(h, dev_x, dev_y, threshold):
 	:param threshold: determine confidence
 	:return: list[sentence]
 	"""
+	_, (dev_x, dev_y) = sentiment.load_data(path=SENTIMENT_DATA_PATH)
+	h = get_model('sentiment')
+	threshold = 0.9
+
 	with open("../data/sentiment/overconfident.txt", 'w') as over_confident_file:
 		with open("../data/sentiment/confident.txt", 'w') as confident_file:
 			cases = list(zip(dev_x, dev_y))
 			for text, label in cases:
 				preds = h.predict([text])[0]
 				if max(preds) >= threshold:
-					pass
-	pass
+					if label[0] == 0:
+						label = 'NEGATIVE'
+					else:
+						label = 'POSITIVE'
+
+					line = label + "\t" + " ".join(text) + "\n"
+					#print(line)
+					if (preds[0] > preds[1] and label == 'POSITIVE') or (preds[0] < preds[1] and label == 'NEGATIVE'):
+					    confident_file.writelines(line)
+					else:
+						over_confident_file.writelines(line)
 
 
-
-
-
-def visual_info(h, testcase, label = ""):
+def visual_info(dataset, testcase, label = ""):
 	"""
 
-	:param h: pretrained HNATT model
-	:param testcase: a review you want to test and visualize
-	:return: dict{sentence, predicted_label, ground_truth, confidence, word_weights}
+	:param dataset: string: sentiment/yelp
+	:param testcase: string: a review you want to test and visualize
+	:return: dict('sentence', 'probs', 'ground_truth','word_attention', 'sentence_attention')
 
 	"""
+	h = get_model(dataset)
 	dic = {}
 	dic['sentence'] = testcase
 	preds = h.predict([testcase])
@@ -58,6 +71,7 @@ def visual_info(h, testcase, label = ""):
 	return dic
 
 def train(dataset):
+	#dataset: string. 'yelp' or 'sentiment'
 	if dataset == "yelp":
 		(train_x, train_y), (test_x, test_y) = yelp.load_data(path=YELP_DATA_PATH, size=1e4, binary=False)
 		SAVED_MODEL_DIR = YELP_SAVED_MODEL_DIR
@@ -86,9 +100,11 @@ def get_model(dataset):
 if __name__ == '__main__':
 	# train("yelp")
 	# train("sentiment")
-	dataset = 'yelp'
-	h = get_model(dataset)
+
+	dataset = 'sentiment'
 	testcase = 'i agree that the seating is odd. but the food is exceptional especially for the price. the menu is truly montreal meats japan (spelling is correct) = very unique. great'
-	result = visual_info(h, testcase)
+	result = visual_info(dataset, testcase)
 	for key in result:
-	    print(key, result[key])
+	     print(key, result[key])
+
+	#find_confidence_cases()
