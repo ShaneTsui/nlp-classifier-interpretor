@@ -1,14 +1,11 @@
-<<<<<<< HEAD:explainEngine/main.py
 import util.yelp as yelp
 import util.sentiment as sentiment
 from hnatt import HNATT
 import util.text_util as text_util
-=======
 import modules.hnatt.util.yelp as yelp
 import modules.hnatt.util.sentiment as sentiment
 from modules.hnatt.hnatt import HNATT
 from modules.hnatt.util.text_util import normalize
->>>>>>> b98072f6ed652c29d4e9515beae8c18a60094d54:website/modules/hnatt/utils.py
 
 YELP_DATA_PATH = '../data/yelp/review.json'
 SENTIMENT_DATA_PATH = '../data/sentiment/sentiment.tar.gz'
@@ -40,12 +37,9 @@ def find_confidence_cases():
 					#print(max(preds))
 					if label[0] == 0:
 						label = 'POSITIVE'
-<<<<<<< HEAD:explainEngine/main.py
 					else:
 						label = 'NEGATIVE'
 
-=======
->>>>>>> b98072f6ed652c29d4e9515beae8c18a60094d54:website/modules/hnatt/utils.py
 					line = label + "\t" + " ".join(text) + "\n"
 					#print(line)
 					if (preds[0] < preds[1] and label == 'POSITIVE') or (preds[0] > preds[1] and label == 'NEGATIVE'):
@@ -126,14 +120,10 @@ def get_model(dataset):
 # 	     print(key, result[key])
 
 
-<<<<<<< HEAD:explainEngine/main.py
 	# dataset = 'sentiment'
 	# testcase = 'bad'
 	# #testcase = 'i agree that the seating is odd. but the food is exceptional especially for the price. the menu is truly montreal meats japan (spelling is correct) = very unique. great'
 	# result = visual_info(dataset, testcase)
 	# for key in result:
 	#      print(key, result[key])
-=======
->>>>>>> b98072f6ed652c29d4e9515beae8c18a60094d54:website/modules/hnatt/utils.py
 
-	find_confidence_cases()
