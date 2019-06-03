@@ -266,10 +266,10 @@ var lime =
 	    var max_weight = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 1;
 	    var positions = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : false;
 	
-	    div.classed('lime', true).classed('text_div', true).style('border', '15px solid white');
+	    div.classed('lime', true).classed('text_div', true).style('border', '50px solid white').style('border-radius', '10px');
 //	    div.append('h3').text('Text with highlighted words');
 	    var highlight_tag = 'span';
-	    var text_span = div.append('span').style('white-space', 'pre-wrap').style('font-family', 'Ropa Sans').text(raw_text);
+	    var text_span = div.append('span').style('white-space', 'pre-wrap').style('font-family', 'Ropa Sans').style('line-height', '40px').style('font-size','30px').text(raw_text);
 	    var position_lists = word_lists;
 	    if (!positions) {
 	      position_lists = this.wordlists_to_positions(word_lists, raw_text);

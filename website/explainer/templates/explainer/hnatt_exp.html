@@ -1,0 +1,396 @@
+!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+
+{% load static %}
+
+
+<head>
+	<title>Simple Tab Forms A Flat Responsive Widget Template  :: w3layouts</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link href="{% static 'explainer/css/style.css' %}" rel='stylesheet' type='text/css'/>
+	<link href="{% static 'explainer/css/rangeslider.css' %}" rel='stylesheet' type='text/css'/>
+	<link href="//fonts.googleapis.com/css?family=Ropa+Sans:400,400i&amp;subset=latin-ext" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="Simple Tab Forms Widget Responsive, Login Form Web Template, Flat Pricing Tables, Flat Drop-Downs, Sign-Up Web Templates, Flat Web Templates, Login Sign-up Responsive Web Template, Smartphone Compatible Web Template, Free Web Designs for Nokia, Samsung, LG, Sony Ericsson, Motorola Web Design" />
+	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="{% static 'explainer/js/jquery.min.js' %}"></script>
+	<script src="{% static 'explainer/js/bundle.js' %}"></script>
+	<script src="{% static 'explainer/js/rangeslider.min.js' %}"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('#horizontalTab').easyResponsiveTabs({
+				type: 'default', //Types: default, vertical, accordion
+				width: 'auto', //auto or any width like 600px
+				fit: true   // 100% fit in a container
+			});
+		});
+	</script>
+	<script src="{% static 'explainer/js/Chart.min.js' %}"></script>
+	<script src="{% static 'explainer/js/utils.js' %}"></script>
+	<script src="{% static 'explainer/js/bootstrap-input-spinner.js' %}"></script>
+	<script>
+		$("input[type='number']").inputSpinner()
+	</script>
+
+	<style>
+	canvas {
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+	}
+	</style>
+
+	<style>
+        .lime.text_div {
+            overflow:auto;
+        }
+
+		.transbox{
+			background-color: #FFFFFF;
+			background: rgba( 255, 255, 255, 0.2);
+		}
+
+		.testDiv{
+			bottom: 36px;
+			height: 350px;
+			resize: none;
+			color: black;
+			background-color: #FFFFFF
+		}
+
+		td{
+			vertical-align: top;
+		}
+	</style>
+
+    <style>
+        .spinner {
+          width: 250px;
+        }
+        .spinner input {
+          text-align: center;
+        }
+        .input-group-btn-vertical {
+          position: relative;
+          white-space: nowrap;
+          width: 1%;
+          vertical-align: middle;
+          display: table-cell;
+        }
+        .input-group-btn-vertical > .btn {
+          display: block;
+          float: none;
+          width: 100%;
+          max-width: 100%;
+          padding: 11.25px;
+          margin-left: -1px;
+          position: relative;
+          border-radius: 0;
+        }
+        .input-group-btn-vertical > .btn:first-child {
+          border-top-right-radius: 4px;
+        }
+        .input-group-btn-vertical > .btn:last-child {
+          margin-top: -2px;
+          border-bottom-right-radius: 4px;
+        }
+        .input-group-btn-vertical i{
+          position: absolute;
+          top: 0;
+          left: 4px;
+        }
+    </style>
+
+	<style type="text/css">
+		footer{width:100%;height:100px;}
+
+		.jumbotron {
+		  margin-bottom: 0px;
+		  height: 350px;
+		  color: white;
+		  text-shadow: black 0.3em 0.3em 0.3em;
+		  background:transparent;
+		}
+	</style>
+
+    <style>
+        .slidecontainer {
+          width: 100%;
+        }
+
+        .slider {
+          -webkit-appearance: none;
+          width: 72%;
+          height: 7px;
+          border-radius: 5px;
+          background: #d3d3d3;
+          outline: none;
+          opacity: 0.7;
+          -webkit-transition: .2s;
+          transition: opacity .2s;
+        }
+
+        .slider:hover {
+          opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 15px;
+          height: 15px;
+          border-radius: 50%;
+          background: #5CBBFF;
+          cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+          width: 15px;
+          height: 15px;
+          border-radius: 50%;
+          background: #5CBBFF;
+          cursor: pointer;
+        }
+
+        label {
+        	font-size:30px;
+        }
+</style>
+
+</head>
+
+<body>
+
+	<div class="container">
+
+	<div class="jumbotron">
+    <h1>Explainability of Hierarchical Network with Attention</h1>
+		<br>
+		<br>
+    <p style="font-size:25px">Created by Triple X</p>
+  	</div>
+	<table width="1200" border="20" cellpadding="10">
+
+	 <tr>
+	<!--	  <td width="30%" align="center">-->
+		  <form action="#" method="post" style="float:left">
+			{% csrf_token %}
+			<textarea name="text" placeholder="Text..." required="" style="line-height:37px;padding:28px;">{{ test_sentence }}</textarea>
+
+			<input type="submit" value="Explain"/>
+		  </form>
+		  <br>
+		  <br>
+		  <div id="figure1" class="lime top_div col-md-4"></div>
+	<!--	  </td>-->
+	 </tr>
+	 <tr>
+<!--	  <td width="70%"align="center">-->
+		<label style="color:white;margin-top: 90px;margin-bottom: 40px;">Per-sentence Confidence of Prediction</label>
+		  <div class='testDiv' id="figure3" style="border-radius:5px;padding:30px;text-align:left;line-height:50px;">
+<!--			  <span style="background-color: rgb(148, 103, 189);margin=20px;font-size:40px;align:left;">text1 text1 text1 text1 text1</span>-->
+<!--			  <br>-->
+<!--			  <span style="background-color: rgb(0, 103, 189);margin=20px;font-size:40px;align:left;">text2 text2 text2 text2 text2</span>-->
+		  </div>
+
+		  <br>
+		  <br>
+
+<!--	    <div style="margin:20px;">-->
+		  <label style="color:white;margin-top: 90px;margin-bottom: 40px;">Per-word Confidence of Prediction</label>
+			<canvas id="word_conf_exp" style="background-color: #FFFFFF; border-radius: 5px;"></canvas>
+<!--		</div>-->
+	    <br>
+	    <br>
+
+<!--		<div style="margin:20px;">-->
+		    <label style="color:white;margin-top: 90px;margin-bottom: 40px;">Per-class Confidence of Prediction</label>
+			<canvas id="class_conf_exp" style="background-color: #FFFFFF; border-radius: 5px;"></canvas>
+<!--		</div>-->
+<!--	  </td>-->
+<!--	 </tr>-->
+		</tr>
+	</table>
+	</div>
+
+<br>
+<br>
+<br>
+<br>
+<footer>
+<div class="footer" >
+	<p style="font-size:22px"> &copy; 2019 Shane Tsui. All Rights Reserved </p>
+</div>
+<script src="{% static 'explainer/js/easyResponsiveTabs.js' %}" type="text/javascript"></script>
+</footer>
+</body>
+
+<script>
+	var sentenceProbabilities = {{ sentenceProbabilities|safe }};
+	$(document).ready(function() {
+		var sentence_div = d3.select('#figure3');
+		for(var key in sentenceProbabilities) {
+			var color = sentenceProbabilities[key];
+			sentence_div.append('span').style('background-color', color).style('margin', '20px').style('font-size', '35px').text(key);
+			sentence_div.append('br');
+		}
+	});
+</script>
+
+<script>
+	var wordConfBarChartData = {{ wordConfData|safe }};
+	var classConfBarChartData = {{ classConfData|safe }};
+
+	window.onload = function() {
+		var word_ctx = $('#word_conf_exp')[0].getContext('2d');
+		window.myBar = new Chart(word_ctx, {
+			type: 'bar',
+			data: wordConfBarChartData,
+			options: {
+				responsive: true,
+				legend: {
+					position: 'top',
+				},
+				title: {
+					display: false,
+				}
+			}
+		});
+
+		var class_ctx = $('#class_conf_exp')[0].getContext('2d');
+		window.myHorizontalBar = new Chart(class_ctx, {
+			type: 'horizontalBar',
+			data: classConfBarChartData,
+			options: {
+				// Elements options apply to all of the options unless overridden in a dataset
+				// In this case, we are setting the border of each horizontal bar to be 2px wide
+				elements: {
+					rectangle: {
+						borderWidth: 2,
+					}
+				},
+				responsive: true,
+				legend: {
+					position: 'right',
+				},
+				title: {
+					display: false,
+				}
+			}
+		});
+	};
+</script>
+
+<!--<script>-->
+<!--    (function ($) {-->
+<!--      $("#topLevelBtnUp").on('click', function() {-->
+<!--      	var new_value = parseInt($("#topLevelInput").val(), 10) + 1;-->
+<!--      	var maximum_val = parseInt($("#topLevelInput").attr("max"), 10);-->
+<!--      	var minimum_val = parseInt($("#topLevelInput").attr("min"), 10);-->
+<!--      	if (new_value >= minimum_val && new_value <= maximum_val) {-->
+<!--      		$("#topLevelInput").val(new_value);-->
+<!--      	} else if(new_value < minimum_val) {-->
+<!--      		$("#topLevelInput").val(minimum_val);-->
+<!--      	} else {-->
+<!--      		$("#topLevelInput").val(maximum_val);-->
+<!--      	}-->
+<!--      });-->
+<!--      $("#topLevelBtnDown").on('click', function() {-->
+<!--        var new_value = parseInt($('#topLevelInput').val(), 10) - 1;-->
+<!--      	var maximum_val = parseInt($("#topLevelInput").attr("max"), 10);-->
+<!--      	var minimum_val = parseInt($("#topLevelInput").attr("min"), 10);-->
+<!--      	if (new_value >= minimum_val && new_value <= maximum_val) {-->
+<!--      		$("#topLevelInput").val(new_value);-->
+<!--      	} else if(new_value < minimum_val) {-->
+<!--      		$("#topLevelInput").val(minimum_val);-->
+<!--      	} else {-->
+<!--      		$("#topLevelInput").val(maximum_val);-->
+<!--      	}-->
+<!--      });-->
+<!--    })(jQuery);-->
+
+<!--    (function ($) {-->
+<!--      $('#numFeatUp').on('click', function() {-->
+
+<!--        var new_value = parseInt($("#numFeatInput").val(), 10) + 1;-->
+<!--      	var maximum_val = parseInt($("#numFeatInput").attr("max"), 10);-->
+<!--      	var minimum_val = parseInt($("#numFeatInput").attr("min"), 10);-->
+<!--      	if (new_value >= minimum_val && new_value <= maximum_val) {-->
+<!--      		$("#numFeatInput").val(new_value);-->
+<!--      	} else if(new_value < minimum_val) {-->
+<!--      		$("#numFeatInput").val(minimum_val);-->
+<!--      	} else {-->
+<!--      		$("#numFeatInput").val(maximum_val);-->
+<!--      	}-->
+<!--      });-->
+<!--      $('#numFeatDown').on('click', function() {-->
+<!--        var new_value = parseInt($('#numFeatInput').val(), 10) - 1;-->
+<!--      	var maximum_val = parseInt($("#numFeatInput").attr("max"), 10);-->
+<!--      	var minimum_val = parseInt($("#numFeatInput").attr("min"), 10);-->
+<!--      	if (new_value >= minimum_val && new_value <= maximum_val) {-->
+<!--      		$("#numFeatInput").val(new_value);-->
+<!--      	} else if(new_value < minimum_val) {-->
+<!--      		$("#numFeatInput").val(minimum_val);-->
+<!--      	} else {-->
+<!--      		$("#numFeatInput").val(maximum_val);-->
+<!--      	}-->
+<!--      });-->
+<!--    })(jQuery);-->
+<!--</script>-->
+
+<!--<script>-->
+<!--	var slider = document.getElementById("myRange");-->
+<!--	var output = document.getElementById("demo");-->
+<!--	output.innerHTML = slider.value;-->
+
+<!--	slider.oninput = function() {-->
+<!--	  output.innerHTML = this.value;-->
+<!--	}-->
+<!--</script>-->
+
+<!--<script>-->
+<!--	$(document).ready(function() {-->
+<!--		$("#topLevelInput").change(function() {-->
+<!--		var maximum_val = parseInt($("#topLevelInput").attr("max"), 10);-->
+<!--		var minimum_val = parseInt($("#topLevelInput").attr("min"), 10);-->
+<!--		if (isNaN($("#topLevelInput").val())) {-->
+<!--			$("#topLevelInput").val(minimum_val);-->
+<!--			alert("Please input a valid number!");-->
+<!--		} else {-->
+<!--			var new_value = parseInt($("#topLevelInput").val(), 10);-->
+<!--			if (new_value < minimum_val || new_value > maximum_val) {-->
+<!--				$("#topLevelInput").val(minimum_val);-->
+<!--				alert("Please input a number between " + minimum_val + " and " + maximum_val);-->
+<!--			}-->
+<!--		}-->
+<!--		});-->
+<!--	});-->
+
+<!--	$(document).ready(function() {-->
+<!--		$("#numFeatInput").change(function() {-->
+<!--		var maximum_val = parseInt($("#numFeatInput").attr("max"), 10);-->
+<!--		var minimum_val = parseInt($("#numFeatInput").attr("min"), 10);-->
+<!--		if (isNaN($("#numFeatInput").val())) {-->
+<!--			$("#numFeatInput").val(minimum_val);-->
+<!--			alert("Please input a valid number!");-->
+<!--		} else {-->
+<!--			var new_value = parseInt($("#numFeatInput").val(), 10);-->
+<!--			if (new_value < minimum_val || new_value > maximum_val) {-->
+<!--				$("#numFeatInput").val(minimum_val);-->
+<!--				alert("Please input a number between " + minimum_val + " and " + maximum_val);-->
+<!--			}-->
+<!--		}-->
+<!--		});-->
+<!--	});-->
+<!--</script>-->
+
+<!--<script>{{ out|safe }}</script>-->
+
