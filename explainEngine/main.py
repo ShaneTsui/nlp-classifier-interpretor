@@ -1,6 +1,7 @@
 import util.yelp as yelp
 import util.sentiment as sentiment
 from hnatt import HNATT
+import util.text_util as text_util
 
 YELP_DATA_PATH = '../data/yelp/review.json'
 SENTIMENT_DATA_PATH = '../data/sentiment/sentiment.tar.gz'
@@ -29,14 +30,15 @@ def find_confidence_cases():
 			for text, label in cases:
 				preds = h.predict([text])[0]
 				if max(preds) >= threshold:
+					#print(max(preds))
 					if label[0] == 0:
-						label = 'NEGATIVE'
-					else:
 						label = 'POSITIVE'
+					else:
+						label = 'NEGATIVE'
 
 					line = label + "\t" + " ".join(text) + "\n"
 					#print(line)
-					if (preds[0] > preds[1] and label == 'POSITIVE') or (preds[0] < preds[1] and label == 'NEGATIVE'):
+					if (preds[0] < preds[1] and label == 'POSITIVE') or (preds[0] > preds[1] and label == 'NEGATIVE'):
 					    confident_file.writelines(line)
 					else:
 						over_confident_file.writelines(line)
@@ -53,7 +55,9 @@ def visual_info(dataset, testcase, label = ""):
 	h = get_model(dataset)
 	dic = {}
 	dic['sentence'] = testcase
-	preds = h.predict([testcase])
+	ntext = text_util.normalize(testcase)
+	preds = h.predict([ntext])
+	#[Neg_prob, Pos_prob]
 	dic['probs'] = preds[0]
 	if label:
 		dic["ground_truth"] = label
@@ -101,10 +105,11 @@ if __name__ == '__main__':
 	# train("yelp")
 	# train("sentiment")
 
-	dataset = 'sentiment'
-	testcase = 'i agree that the seating is odd. but the food is exceptional especially for the price. the menu is truly montreal meats japan (spelling is correct) = very unique. great'
-	result = visual_info(dataset, testcase)
-	for key in result:
-	     print(key, result[key])
+	# dataset = 'sentiment'
+	# testcase = 'bad'
+	# #testcase = 'i agree that the seating is odd. but the food is exceptional especially for the price. the menu is truly montreal meats japan (spelling is correct) = very unique. great'
+	# result = visual_info(dataset, testcase)
+	# for key in result:
+	#      print(key, result[key])
 
-	#find_confidence_cases()
+	find_confidence_cases()
