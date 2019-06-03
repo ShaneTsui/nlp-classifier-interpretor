@@ -1,3 +1,5 @@
+from functools import reduce
+
 from django.shortcuts import render
 import tensorflow as tf
 
@@ -55,7 +57,7 @@ probs: {dataset_name: [data]}
 '''
 def build_datasets(labels, probs):
     # TODO: Change color
-    beautiful_color = get_color()
+    beautiful_color = get_hex_color()
     datasets = []
     for label in labels:
         color = next(beautiful_color) + "F0"
@@ -118,6 +120,8 @@ def lime_explain(request):
 
 def parse_word_attention(word_attention):
     words, word_probs = [], []
+    # TODO: Notice we only support one sentence
+    word_attention = list(reduce(lambda x, y: x + y, word_attention))
     for word, prob in word_attention:
         words.append(word)
         word_probs.append(prob)
@@ -126,15 +130,30 @@ def parse_word_attention(word_attention):
 def parse_hnatt_class_prob(class_probs):
     class_names = ['negative', 'positive']
     probs = dict()
-    probs['negative'], probs['positive'] = [class_probs[0]], [class_probs[1]]
+    probs['negative'], probs['positive'] = [class_probs[1]], [class_probs[0]]
     return class_names, probs
+
+
+def prob2color(sentence_probabilities):
+    beautiful_color = get_rgb_color()
+    r, g, b = next(beautiful_color)
+    return f"rgba({r}, {g}, {b}, {sentence_probabilities})"
+
+
+def parse_sentence_prob(splited_sentences, sentence_attention):
+    assert len(splited_sentences) == len(sentence_attention)
+    sentence_probabilities = dict()
+    for sent, prob in zip(splited_sentences, sentence_attention):
+        sentence_probabilities[sent] = prob2color(prob)
+    return sentence_probabilities
+
 
 def hnatt_explain(request):
     context = dict()
 
     if request.method == 'POST':
         # Get data from post request
-        text = "i agree that the seating is odd. but the food is exceptional especially for the price. the menu is truly montreal meats japan (spelling is correct) = very unique. great"#request.POST.get('text')
+        text = request.POST.get('text')
 
         dataset = 'yelp' # TODO: request.POST.get('dataset')
 
@@ -142,8 +161,6 @@ def hnatt_explain(request):
         context['test_sentence'] = text
 
         text = text.replace("\n", " ").replace("\r", " ")
-        print(type(text))
-        print(text)
         global graph
         with graph.as_default():
             if dataset == 'yelp':
@@ -156,12 +173,16 @@ def hnatt_explain(request):
         word_attention = exp['word_attention']
         # TODO: colored sentences
         sentence_attention = exp['sentence_attention']
+        splited_sentences = exp['splited_sentences']
         class_probs = exp['probs']
+        sentence_prob = parse_sentence_prob(splited_sentences, sentence_attention)
+
+        context['sentenceProbabilities'] = sentence_prob
 
         classes, words, word_probs = parse_word_attention(word_attention)
         context['wordConfData'] = {'labels': words, 'datasets': build_datasets(classes, word_probs)}
 
         class_names, cls_proba = parse_hnatt_class_prob(class_probs)
-        context["classConfData"] = {'labels': [''], 'datasets': build_datasets(classes, cls_proba)}
+        context["classConfData"] = {'labels': [''], 'datasets': build_datasets(class_names, cls_proba)}
         context["out"] = None
     return render(request, 'explainer/hnatt_exp.html', context)

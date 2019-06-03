@@ -69,6 +69,7 @@ def explain(h, testcase, label = ""):
 	dic['splited_sentences'] = normalize(testcase)
 	return dic
 
+
 def train(dataset):
 	#dataset: string. 'yelp' or 'sentiment'
 	if dataset == "yelp":
