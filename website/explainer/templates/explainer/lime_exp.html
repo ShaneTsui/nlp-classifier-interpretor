@@ -188,6 +188,21 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 		      <br>
 			  <br>
 
+			  <label style="color:white">Task</label>
+			  <br>
+			  <br>
+			  <div class="btn-group" style="width:200px;height:60px" id="taskBtnGroup">
+				  <button type="button" class="btn btn-primary" style="font-size:25px" value="Yelp">Yelp</button>
+				  <button type="button" class="btn btn-primary" style="font-size:25px" value="Sentiment">Sentiment</button>
+				</div>
+			  <input hidden id="taskInput" name="selectedTask" value="123"></input>
+			  <br>
+			  <br>
+			  <br>
+			  <br>
+			  <br>
+
+
 	    <label style="color:white">Top Level</label>
 			  <br>
 			  <br>
@@ -271,6 +286,28 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script src="{% static 'explainer/js/easyResponsiveTabs.js' %}" type="text/javascript"></script>
 </footer>
 </body>
+
+
+<script>
+	$(document).ready(function() {
+	  // Get click event, assign button to var, and get values from that var
+	  $('#taskBtnGroup button').on('click', function() {
+		var thisBtn = $(this);
+
+		thisBtn.addClass('active').siblings().removeClass('active');
+		var btnText = thisBtn.text();
+		$('#taskInput').val(btnText);
+	  });
+
+	  // You can use this to set default value
+	  // It will fire above click event which will do the updates for you
+	  if ('{{ task_clicked }}' == 'Yelp') {
+	  	$('#taskBtnGroup button[value="Yelp"]').click();
+	  } else {
+	  	$('#taskBtnGroup button[value="Sentiment"]').click();
+	  }
+	});
+</script>
 
 <script>
 	var wordConfBarChartData = {{ wordConfData|safe }};

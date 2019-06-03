@@ -22,11 +22,24 @@ def tokenize_string(string):
     return string.split()
 
 # Load our trained FastText classifier model (created in Part 2)
-classifier = fastText.load_model('/media/shanetsui/Elements/Data/yelp/reviews_model_ngrams.bin')
+sentiment_classifier = fastText.load_model('/media/shanetsui/Elements/Data/yelp/hw2_model_ngram.bin')
+yelp_classifier = fastText.load_model('/media/shanetsui/Elements/Data/yelp/reviews_model_ngrams.bin')
 
 # Create a LimeTextExplainer. This object knows how to explain a text-based
 # prediction by dropping words randomly.
-explainer = lime.lime_text.LimeTextExplainer(
+sentiment_explainer = lime.lime_text.LimeTextExplainer(
+    # We need to tell LIME how to split the string into words. We can do this
+    # by giving it a function to call to split a string up the same way FastText does it.
+    split_expression=tokenize_string,
+    # Our FastText classifer uses bigrams (two-word pairs) to classify text. Setting
+    # bow=False tells LIME to not assume that our classifier is based on single words only.
+    bow=False,
+    # To make the output pretty, tell LIME what to call each possible prediction from our model.
+    class_names=["NEGATIVE", "POSITIVE"],
+    verbose=True
+)
+
+yelp_explainer = lime.lime_text.LimeTextExplainer(
     # We need to tell LIME how to split the string into words. We can do this
     # by giving it a function to call to split a string up the same way FastText does it.
     split_expression=tokenize_string,
@@ -37,6 +50,7 @@ explainer = lime.lime_text.LimeTextExplainer(
     class_names=["No Stars", "1 Star", "2 Stars", "3 Stars", "4 Stars", "5 Stars"],
     verbose=True
 )
+
 
 # LIME is designed to work with clasText with highlighted wordssifiers that generate predictions
 # in the same format as Scikit-Learn. It expects every prediction to have
@@ -63,11 +77,12 @@ def fasttext_prediction_in_sklearn_format(classifier, texts):
 
 # TODO: Add parameters here, including
 # num_features, num_samples, top_label
-def explain_sentence(review, top_labels=1, num_features=20, num_samples=5000):
+def explain_sentence(review, task="Sentiment", top_labels=1, num_features=20, num_samples=5000):
 
     # Review to explain
     #review = "I didn't love this place :( The food wasn't very good and I didn't like the service either. Also, I found a bug in my food."
-
+    classifier = sentiment_classifier if task == "Sentiment" else yelp_classifier
+    explainer = sentiment_explainer if task == "Sentiment" else yelp_explainer
     # Pre-process the text of the review so it matches the training format
     preprocessed_review = strip_formatting(review)
 
@@ -82,7 +97,7 @@ def explain_sentence(review, top_labels=1, num_features=20, num_samples=5000):
         # How many words in our sentence to include in the explanation. You can try different values.
         num_features=num_features,
         # How many samples shall the lime algorithm generate
-        num_samples=5000
+        num_samples=num_samples
     )
 
     return exp

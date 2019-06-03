@@ -1,7 +1,7 @@
-import util.yelp as yelp
-import util.sentiment as sentiment
-from hnatt import HNATT
-import util.text_util as text_util
+import modules.hnatt.util.yelp as yelp
+import modules.hnatt.util.sentiment as sentiment
+from modules.hnatt.hnatt import HNATT
+import modules.hnatt.util.text_util as text_util
 import modules.hnatt.util.yelp as yelp
 import modules.hnatt.util.sentiment as sentiment
 from modules.hnatt.hnatt import HNATT
@@ -101,10 +101,6 @@ def get_model(dataset):
 		h.load_weights(YELP_SAVED_MODEL_DIR, SAVED_MODEL_FILENAME)
 	else:
 		h.load_weights(SENT_SAVED_MODEL_DIR, SAVED_MODEL_FILENAME)
-	testcase = 'i agree that the seating is odd. but the food is exceptional especially for the price. the menu is truly montreal meats japan (spelling is correct) = very unique. great'
-
-	result = explain(h, testcase)
-	print(result)
 	return h
 
 

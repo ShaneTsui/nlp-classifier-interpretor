@@ -18,6 +18,12 @@ def get_hex_color():
     for c in COLORS_HEX:
         yield c
 
-def get_rgb_color():
+def get_pos_neg_color(cls, hex=False):
+    if cls == "POSITIVE":
+        return (206, 34, 77) if not hex else "#CE224D"
+    else:
+        return (36, 73, 100) if not hex else "#5CBBFF"
+
+def get_rgb_color(tag):
     for c in COLORS_RGB:
         yield c

@@ -14,53 +14,34 @@ from modules.lime.html_writer import *
 graph = tf.get_default_graph()
 h_yelp = hnatt.get_model('yelp')
 h_sentiment = hnatt.get_model('sentiment')
-
-# def index(request):
-#     # template = loader.get_template('explainer/index.html')
-#     context = {
-#         'latest_question_list': [1, 2, 3],
-#     }
-#
-#     if request.method == 'POST':
-#         text = request.POST.get('text')
-#         text = text.replace("\n", " ").replace("\r", " ")
-#         print(text)
-#         exp = explain_sentence(text)
-#         output_filename = Path(__file__).parent / "index.html"
-#         out = save_to_file(exp, output_filename, show_predicted_value=False)
-#         context = {"out" : out }
-#
-#
-#     # return HttpResponse(template.render(context, request))
-#     return render(request, 'explainer/index.html', context)
-
-# color_picker = next_color()
-# rand_color = randomcolor.RandomColor()
-import website.settings as settings
+yelp_classnames = ["No Stars", "1 Star", "2 Stars", "3 Stars", "4 Stars", "5 Stars"]
+sentiment_classnames = ["NEGATIVE", "POSITIVE"]
 
 
-def parse_word_confidence_data(explainer):
+def parse_word_confidence_data(explainer, selected_task):
     # labels: dataset name
     labels = explainer.available_labels()
+    label_names = [sentiment_classnames[i] for i in labels] if selected_task == "Sentiment" else [yelp_classnames[i] for i in labels]
     words, probs = dict(), dict()
-    for label in labels:
+    for i, label in enumerate(labels):
         exp = explainer.as_list(label)
-        words[label], probs[label] = [], []
+        words[label_names[i]], probs[label_names[i]] = [], []
         for word, prob in exp:
-            words[label].append(word)
-            probs[label].append(prob)
-    return labels, words, probs
+            words[label_names[i]].append(word)
+            probs[label_names[i]].append(prob)
+    return label_names, words, probs
+
 
 '''
 labels: dataset name
 probs: {dataset_name: [data]}
 '''
-def build_datasets(labels, probs):
+def build_datasets(labels, probs, color=None):
     # TODO: Change color
-    beautiful_color = get_hex_color()
+    beautiful_color = get_hex_color()#color if color else get_hex_color()
     datasets = []
     for label in labels:
-        color = next(beautiful_color) + "F0"
+        color = next(beautiful_color) + "F0" #if not color else get_pos_neg_color(label.upper(), hex=True)
         datasets.append({
             'label': label,
             'backgroundColor': color,
@@ -78,10 +59,40 @@ def parse_sentence_conf(explainer):
     probs_dict = dict()
     for i, prob in enumerate(probs):
         probs_dict[classes[i]] = [prob]
-    if len(probs) != classes:
+    if len(probs) != len(classes):
         classes = classes[:i] + ['Others']
         probs_dict['Others'] = sum(probs[i+1:])
     return classes, words, probs_dict
+
+
+def parse_word_attention(word_attention, cls_prediction):
+    words, word_probs = [], []
+    # TODO: Notice we only support one sentence
+    word_attention = list(reduce(lambda x, y: x + y, word_attention))
+    for word, prob in word_attention:
+        words.append(word)
+        word_probs.append(prob)
+    return words, {cls_prediction: word_probs}
+
+def parse_hnatt_class_prob(class_probs):
+    class_names = ['positive', 'negative']
+    probs = dict()
+    probs['negative'], probs['positive'] = [class_probs[0]], [class_probs[1]]
+    return class_names, probs
+
+
+def prob2color(sentence_probabilities, cls):
+    # beautiful_color = get_rgb_color()
+    r, g, b = get_pos_neg_color(cls)
+    return f"rgba({r}, {g}, {b}, {sentence_probabilities})"
+
+
+def parse_sentence_prob(splited_sentences, sentence_attention, cls):
+    assert len(splited_sentences) == len(sentence_attention)
+    sentence_probabilities = dict()
+    for sent, prob in zip(splited_sentences, sentence_attention):
+        sentence_probabilities[sent] = prob2color(prob, cls)
+    return sentence_probabilities
 
 
 def lime_explain(request):
@@ -98,7 +109,8 @@ def lime_explain(request):
         top_labels = int(request.POST.get('top_labels'))
         num_features = int(request.POST.get('num_features'))
         num_samples = int(request.POST.get('num_samples'))
-
+        selected_task = request.POST.get('selectedTask')
+        context['task_clicked'] = selected_task
         # Explain text with configuration above using lime
         context['test_sentence'] = text
         context['top_labels_val'] = top_labels
@@ -106,10 +118,9 @@ def lime_explain(request):
         context['num_samples_val'] = num_samples
 
         text = text.replace("\n", " ").replace("\r", " ")
-        # print(text)
-        exp = explain_sentence(text, top_labels, num_features, num_samples)
+        exp = explain_sentence(text, selected_task, top_labels, num_features, num_samples)
         out = save_to_file(exp, show_predicted_value=False)
-        labels, words, probs = parse_word_confidence_data(exp)
+        labels, words, probs = parse_word_confidence_data(exp, selected_task)
         context["wordConfData"] = {'labels': words[labels[0]], 'datasets': build_datasets(labels, probs)}
         classes, cls_words, cls_proba = parse_sentence_conf(exp)
         context["classConfData"] = {'labels': cls_words, 'datasets': build_datasets(classes, cls_proba)}
@@ -117,35 +128,8 @@ def lime_explain(request):
 
     return render(request, 'explainer/lime_exp.html', context)
 
-
-def parse_word_attention(word_attention):
-    words, word_probs = [], []
-    # TODO: Notice we only support one sentence
-    word_attention = list(reduce(lambda x, y: x + y, word_attention))
-    for word, prob in word_attention:
-        words.append(word)
-        word_probs.append(prob)
-    return ['word attention'], words, {'word attention': word_probs}
-
-def parse_hnatt_class_prob(class_probs):
-    class_names = ['negative', 'positive']
-    probs = dict()
-    probs['negative'], probs['positive'] = [class_probs[1]], [class_probs[0]]
-    return class_names, probs
-
-
-def prob2color(sentence_probabilities):
-    beautiful_color = get_rgb_color()
-    r, g, b = next(beautiful_color)
-    return f"rgba({r}, {g}, {b}, {sentence_probabilities})"
-
-
-def parse_sentence_prob(splited_sentences, sentence_attention):
-    assert len(splited_sentences) == len(sentence_attention)
-    sentence_probabilities = dict()
-    for sent, prob in zip(splited_sentences, sentence_attention):
-        sentence_probabilities[sent] = prob2color(prob)
-    return sentence_probabilities
+def get_prediction(cls_prob):
+    return "POSITIVE" if cls_prob[1] > cls_prob[0] else "NEGATIVE"
 
 
 def hnatt_explain(request):
@@ -154,8 +138,7 @@ def hnatt_explain(request):
     if request.method == 'POST':
         # Get data from post request
         text = request.POST.get('text')
-
-        dataset = 'yelp' # TODO: request.POST.get('dataset')
+        dataset = request.POST.get('selectedTask') #'yelp' # TODO: request.POST.get('dataset')
 
         # Explain text with configuration above using lime
         context['test_sentence'] = text
@@ -163,26 +146,27 @@ def hnatt_explain(request):
         text = text.replace("\n", " ").replace("\r", " ")
         global graph
         with graph.as_default():
-            if dataset == 'yelp':
+            if dataset == 'Yelp':
                 exp = hnatt.explain(h_yelp, text)
-            elif dataset=='sentiment':
+            elif dataset=='Sentiment':
                 exp = hnatt.explain(h_sentiment, text)
             else:
                 raise NotImplementedError
-
+        context['task_clicked'] = dataset
         word_attention = exp['word_attention']
         # TODO: colored sentences
         sentence_attention = exp['sentence_attention']
         splited_sentences = exp['splited_sentences']
         class_probs = exp['probs']
-        sentence_prob = parse_sentence_prob(splited_sentences, sentence_attention)
+        class_pred = get_prediction(class_probs)
+        sentence_prob = parse_sentence_prob(splited_sentences, sentence_attention, class_pred)
 
         context['sentenceProbabilities'] = sentence_prob
 
-        classes, words, word_probs = parse_word_attention(word_attention)
-        context['wordConfData'] = {'labels': words, 'datasets': build_datasets(classes, word_probs)}
+        words, word_probs = parse_word_attention(word_attention, class_pred)
+        context['wordConfData'] = {'labels': words, 'datasets': build_datasets([class_pred], word_probs, get_pos_neg_color(class_pred, hex=True))}
 
         class_names, cls_proba = parse_hnatt_class_prob(class_probs)
-        context["classConfData"] = {'labels': [''], 'datasets': build_datasets(class_names, cls_proba)}
+        context["classConfData"] = {'labels': [''], 'datasets': build_datasets(class_names, cls_proba, get_pos_neg_color(class_pred, hex=True))}
         context["out"] = None
     return render(request, 'explainer/hnatt_exp.html', context)
