@@ -4,7 +4,7 @@ from tqdm import tqdm
 import json
 import tarfile
 
-from util.text_util import *
+from modules.hnatt.util.text_util import *
 
 tqdm.pandas()
 

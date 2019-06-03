@@ -22,7 +22,7 @@ def tokenize_string(string):
     return string.split()
 
 # Load our trained FastText classifier model (created in Part 2)
-classifier = fastText.load_model('F:/Data/yelp/reviews_model_ngrams.bin')
+classifier = fastText.load_model('/mnt/f/Data/yelp/reviews_model_ngrams.bin')
 
 # Create a LimeTextExplainer. This object knows how to explain a text-based
 # prediction by dropping words randomly.

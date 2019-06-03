@@ -1,13 +1,13 @@
-import util.yelp as yelp
-import util.sentiment as sentiment
-from hnatt import HNATT
-from util.text_util import normalize
+import modules.hnatt.util.yelp as yelp
+import modules.hnatt.util.sentiment as sentiment
+from modules.hnatt.hnatt import HNATT
+from modules.hnatt.util.text_util import normalize
 
 YELP_DATA_PATH = '../data/yelp/review.json'
 SENTIMENT_DATA_PATH = '../data/sentiment/sentiment.tar.gz'
 
-SENT_SAVED_MODEL_DIR = 'saved_models/sentiment/'
-YELP_SAVED_MODEL_DIR  = 'saved_models/yelp/'
+SENT_SAVED_MODEL_DIR = 'modules/hnatt/saved_models/sentiment/'
+YELP_SAVED_MODEL_DIR  = 'modules/hnatt/saved_models/yelp/'
 
 SAVED_MODEL_FILENAME = 'model.h5'
 
@@ -34,7 +34,6 @@ def find_confidence_cases():
 						label = 'NEGATIVE'
 					else:
 						label = 'POSITIVE'
-
 					line = label + "\t" + " ".join(text) + "\n"
 					#print(line)
 					if (preds[0] > preds[1] and label == 'POSITIVE') or (preds[0] < preds[1] and label == 'NEGATIVE'):
@@ -42,8 +41,7 @@ def find_confidence_cases():
 					else:
 						over_confident_file.writelines(line)
 
-
-def hnatt_explain(testcase, dataset='sentiment', label = ""):
+def explain(h, testcase, label = ""):
 	"""
 
 	:param dataset: string: sentiment/yelp
@@ -51,7 +49,6 @@ def hnatt_explain(testcase, dataset='sentiment', label = ""):
 	:return: dict('sentence', 'probs', 'ground_truth','word_attention', 'sentence_attention')
 
 	"""
-	h = get_model(dataset)
 	dic = {}
 	dic['sentence'] = testcase
 	preds = h.predict([testcase])
@@ -95,19 +92,23 @@ def get_model(dataset):
 		h.load_weights(YELP_SAVED_MODEL_DIR, SAVED_MODEL_FILENAME)
 	else:
 		h.load_weights(SENT_SAVED_MODEL_DIR, SAVED_MODEL_FILENAME)
+	testcase = 'i agree that the seating is odd. but the food is exceptional especially for the price. the menu is truly montreal meats japan (spelling is correct) = very unique. great'
+
+	result = explain(h, testcase)
+	print(result)
 	return h
 
 
 
-if __name__ == '__main__':
-	# train("yelp")
-	# train("sentiment")
-
-	dataset = 'sentiment'
-	testcase = 'i agree that the seating is odd. but the food is exceptional especially for the price. the menu is truly montreal meats japan (spelling is correct) = very unique. great'
-	result = hnatt_explain(dataset, testcase)
-	for key in result:
-	     print(key, result[key])
+# if __name__ == '__main__':
+# 	# train("yelp")
+# 	# train("sentiment")
+#
+# 	dataset = 'sentiment'
+# 	testcase = 'i agree that the seating is odd. but the food is exceptional especially for the price. the menu is truly montreal meats japan (spelling is correct) = very unique. great'
+# 	result = explain(dataset, testcase)
+# 	for key in result:
+# 	     print(key, result[key])
 
 
 

@@ -3,7 +3,7 @@ import numpy as np
 from tqdm import tqdm
 import json
 
-from util.text_util import *
+from modules.hnatt.util.text_util import *
 
 tqdm.pandas()
 

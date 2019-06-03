@@ -13,8 +13,8 @@ from keras.utils import CustomObjectScope
 from keras.engine.topology import Layer
 from keras import initializers
 
-from util.text_util import normalize
-from util.glove import load_glove_embedding
+from modules.hnatt.util.text_util import normalize
+from modules.hnatt.util.glove import load_glove_embedding
 
 # Uncomment below for debugging
 # from tensorflow.python import debug as tf_debug
