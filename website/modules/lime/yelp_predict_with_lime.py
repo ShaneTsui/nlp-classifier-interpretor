@@ -110,3 +110,22 @@ def explain_sentence(review, task="Sentiment", top_labels=1, num_features=20, nu
     #
     # # Open the explanation html in our web browser.
     # webbrowser.open(output_filename.as_uri())
+
+if __name__=="__main__":
+    false_pred_proba, false_pred_sentence = [], []
+    with open("hw2_train.txt", 'r') as f:
+        for line in f:
+            line = line.replace("\n", " ").replace("\r", " ")
+            tokens = line.split(' ')[1:]
+            label, sentence = tokens[0], " ".join(tokens[1:])
+            explainer = explain_sentence(sentence)
+            classes = [str(x).lower() for x in explainer.class_names]
+            probs = list(explainer.predict_proba.astype(float))
+            prediction = classes[0] if probs[0] > probs[1] else classes[1]
+            if label[10:].lower() != prediction:
+                false_pred_proba.append(probs[0] if probs[0] > probs[1] else probs[1])
+                false_pred_sentence.append(sentence)
+    import numpy as np
+    idx = np.argsort(false_pred_proba)
+    sorted_sent = np.array(false_pred_sentence)[idx]
+    print(np.array(false_pred_proba)[idx], sorted_sent)
